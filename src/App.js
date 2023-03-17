@@ -1,10 +1,11 @@
 import "./App.css";
-import Users from "./pages/users/Users";
+
+import { Outlet } from "react-router-dom";
 
 const App = () => {
   return (
     <div className="App">
-      <Users />
+      <Outlet />
     </div>
   );
 };

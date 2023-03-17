@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Card from "../../components/Card/Card";
 import Loading from "../../components/Loading/Loading";
 
 import { Grid } from "@mui/material";
 
-export const Users = () => {
+const Users = () => {
   const [userData, setUserData] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     const response = await fetch(
@@ -44,6 +46,7 @@ export const Users = () => {
     );
     const data = await response.json();
     console.log(data);
+    navigate("/userinfo");
   };
 
   return (
