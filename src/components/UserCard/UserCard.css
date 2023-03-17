@@ -1,0 +1,46 @@
+.user-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 1.5rem;
+    border-radius: 0.5rem;
+    width: 75%;
+    padding: 1.5;
+    box-shadow: rgba(149, 157, 165, 0.3) 0px 8px 24px;
+}
+
+.user-img {
+    width: 60%;
+    padding: 1.5rem;
+    display: block;
+    margin: 0 auto;
+}
+
+.address-box,
+.info-box {
+    position: relative;
+    border: 1px solid black;
+    height: 12rem;
+    padding: 10px;
+    margin: 1rem;
+    width: 25rem;
+}
+
+.address-box::before {
+    position: absolute;
+    content: "Address";
+    top: -10px;
+    left: 10px;
+    padding: 0 5px;
+    background-color: white;
+}
+
+.info-box::before {
+    position: absolute;
+    content: "Info";
+    top: -10px;
+    left: 10px;
+    padding: 0 5px;
+    background-color: white;
+}

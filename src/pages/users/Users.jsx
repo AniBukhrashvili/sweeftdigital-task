@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Card from "../../components/Card/Card";
 import Loading from "../../components/Loading/Loading";
@@ -11,6 +11,7 @@ const Users = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const fetchData = async () => {
     const response = await fetch(
@@ -45,8 +46,9 @@ const Users = () => {
       `http://sweeftdigital-intern.eu-central-1.elasticbeanstalk.com/user/${userId}`
     );
     const data = await response.json();
-    console.log(data);
-    navigate("/userinfo");
+    navigate("/userinfo", {
+      state: { user: data },
+    });
   };
 
   return (
