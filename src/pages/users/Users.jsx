@@ -45,7 +45,7 @@ const Users = () => {
       `http://sweeftdigital-intern.eu-central-1.elasticbeanstalk.com/user/${userId}`
     );
     const data = await response.json();
-    navigate("/userinfo", {
+    navigate(`/userinfo/${data.id}`, {
       state: { user: data },
     });
   };

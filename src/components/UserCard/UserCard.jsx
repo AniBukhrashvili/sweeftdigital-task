@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Typography, Box, Grid } from "@mui/material";
 import "./UserCard.css";
@@ -10,6 +11,10 @@ const UserCard = ({ user }) => {
   const [friends, setFriends] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [selectedFriend, setSelectedFriend] = useState([]);
+  const [selectedFriendName, setSelectedFriendName] = useState([]);
+
+  const navigate = useNavigate();
 
   const fetchFriends = async () => {
     const response = await fetch(
@@ -37,6 +42,25 @@ const UserCard = ({ user }) => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   });
+
+  const handleFriendClick = async (friendId) => {
+    setFriends([]);
+
+    const response = await fetch(
+      `http://sweeftdigital-intern.eu-central-1.elasticbeanstalk.com/user/${friendId}`
+    );
+    const friend = await response.json();
+    setSelectedFriend(friend);
+
+    const friendFullName = `${friend.prefix} ${friend.name} ${friend.lastName}`;
+    setSelectedFriendName((prevNames) =>
+      prevNames.length > 0 ? `${prevNames} > ${friendFullName}` : friendFullName
+    );
+
+    navigate(`/userinfo/${friend.id}`, {
+      state: { user: friend },
+    });
+  };
 
   return (
     <>
@@ -78,9 +102,23 @@ const UserCard = ({ user }) => {
         Friends
       </Typography>
 
+      {selectedFriendName && (
+        <Typography m="2rem">
+          <Link to={`/userinfo/${selectedFriend.id}`}>
+            {selectedFriendName}
+          </Link>
+        </Typography>
+      )}
+
       <Grid container display="flex" justifyContent="center">
         {friends &&
-          friends.map((item, index) => <Card key={index} {...item} />)}
+          friends.map((item, index) => (
+            <Card
+              key={index}
+              {...item}
+              onClick={() => handleFriendClick(item.id)}
+            />
+          ))}
       </Grid>
       {loading && <Loading />}
     </>
