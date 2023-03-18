@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Card from "../../components/Card/Card";
 import Loading from "../../components/Loading/Loading";
@@ -11,7 +11,6 @@ const Users = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const location = useLocation();
 
   const fetchData = async () => {
     const response = await fetch(
