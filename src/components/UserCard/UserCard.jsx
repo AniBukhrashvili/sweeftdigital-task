@@ -12,7 +12,7 @@ const UserCard = ({ user }) => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [selectedFriend, setSelectedFriend] = useState([]);
-  const [selectedFriendName, setSelectedFriendName] = useState([]);
+  const [selectedFriends, setSelectedFriends] = useState([]);
 
   const navigate = useNavigate();
 
@@ -52,10 +52,10 @@ const UserCard = ({ user }) => {
     const friend = await response.json();
     setSelectedFriend(friend);
 
-    const friendFullName = `${friend.prefix} ${friend.name} ${friend.lastName}`;
-    setSelectedFriendName((prevNames) =>
-      prevNames.length > 0 ? `${prevNames} > ${friendFullName}` : friendFullName
-    );
+    setSelectedFriends((prevSelectedFriends) => [
+      ...prevSelectedFriends,
+      friend,
+    ]);
 
     navigate(`/userinfo/${friend.id}`, {
       state: { user: friend },
@@ -102,12 +102,21 @@ const UserCard = ({ user }) => {
         Friends
       </Typography>
 
-      {selectedFriendName && (
-        <Typography m="2rem">
-          <Link to={`/userinfo/${selectedFriend.id}`}>
-            {selectedFriendName}
-          </Link>
-        </Typography>
+      {selectedFriends.length > 0 && (
+        <Box display="flex" justifyContent="center" sx={{ flexWrap: "wrap" }}>
+          {selectedFriends.map((friend, index) => {
+            const friendFullName = `${friend.prefix} ${friend.name} ${friend.lastName}`;
+            const friendId = `${friend.id}`;
+            return (
+              <Typography key={index}>
+                <Link to={`/userinfo/${friendId}`} style={{ margin: "1rem " }}>
+                  {friendFullName}
+                </Link>
+                {index !== selectedFriends.length - 1 && " > "}
+              </Typography>
+            );
+          })}
+        </Box>
       )}
 
       <Grid container display="flex" justifyContent="center">
